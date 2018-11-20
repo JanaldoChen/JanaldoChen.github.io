@@ -1,11 +1,12 @@
 ---
 layout: post
-title:  "Divide and Conquer DP"
+title:  "Divide and Conquer Dynamic Programming"
 date:   2018-11-19
-excerpt: "Just about everything you'll need to style in the theme: headings, paragraphs, blockquotes, tables, code blocks, and more."
+excerpt: "Dynamic Programming optimization using Divide and Conquer."
 tag:
 - Divide and Conquer
-- DP
+- Dynamic Programming
+- Optimization
 comments: true
 ---
 
@@ -209,4 +210,15 @@ int main() {
     return 0;
 }
 ```
+
+### Practice Problems
+* [Codeforces - Ciel and Gondolas](https://codeforces.com/contest/321/problem/E) (Be careful with I/O!)
+* [SPOJ - LARMY](https://www.spoj.com/problems/LARMY/)
+* [ACM ICPC World Finals 2017 - Money](https://open.kattis.com/problems/money)
+
+### References
+* [Divide and Conquer DP - Competitive Programming Algorithms](https://cp-algorithms.com/dynamic_programming/divide-and-conquer-dp.html)
+* [Video Tutorial by "Sothe" the Algorithm Wolf](https://www.youtube.com/watch?v=wLXEWuDWnzI)
+* [Dynamic Programming Optimizations - Codeforces](https://codeforces.com/blog/entry/8219)
+* [Dynamic programming optimizations - PDF](http://maratona.ic.unicamp.br/MaratonaVerao2017/documents/dp.pdf)
 
