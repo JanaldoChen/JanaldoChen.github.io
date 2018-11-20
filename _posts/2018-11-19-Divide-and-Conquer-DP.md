@@ -7,7 +7,7 @@ tag:
 - Divide and Conquer
 - Dynamic Programming
 - Optimization
-comments: true
+comments: false
 ---
 
 # Divide and Conquer DP
