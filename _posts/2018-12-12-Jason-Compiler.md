@@ -48,7 +48,7 @@ The Jason(Just Another Simple Original Notion) programming language is an ALGOL-
 
 #### The Tokens of Jason are:
 
-$$
+<div>
 \begin{align}
  Identifer ::= & \ Letter(Letter|Digit)^* \\
 
@@ -61,10 +61,10 @@ $$
  Operator ::= & \ .|;|,|(|)|=|<|>|!|+|-|*|/ \\
 
 \end{align}
-$$
+</div>
 
 ### The Grammar of Jason
-$$
+<div>
 \begin{align}
  Program : : = & \ Header \ DeclSec \ Block \ . \\
  Header : : = & \ program \ identifier \ ; \\
@@ -102,7 +102,7 @@ Statement : : = & \ read \ identifier \\
  AddOp :: = & \ + \ | \ - \\
  MultOp : : = & \ * \ | \ / \\
 \end{align}
-$$
+</div>
 
 ## The Symbol Table
 
@@ -110,13 +110,13 @@ $$
 
 The symbol table is used to store essential information about every symbol contained within the program. It will contain the following types of information for the input strings in a source program:
 
-* The lexeme$(input \ string)$ itself
+* The lexeme$$(input \ string)$$ itself
 * Corresponding token
-* Its semantic component $(e.g., variable, operator, constant, procedure, etc.)$
+* Its semantic component $$(e.g., variable, operator, constant, procedure, etc.)$$
 * Data type
-* Value $(for \ data \ type)$
-* Scope $(e.g., Global, sample)$
-* Pointers to other entries$(When \ necessary)$
+* Value $$(for \ data \ type)$$
+* Scope $$(e.g., Global, sample)$$
+* Pointers to other entries$$(When \ necessary)$$
 
 <table border ="0" frame="hsides">
     <tr>
@@ -161,9 +161,7 @@ The symbol table is used to store essential information about every symbol conta
     </tr>
 </table>
 
-
-
-
+#### The types defiition
 
 ```c
 enum tokentype {tokbegin, tokcall, tokdeclare, tokdo, tokelse, tokend,
