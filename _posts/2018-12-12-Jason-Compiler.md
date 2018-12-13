@@ -270,12 +270,29 @@ The symbol table consists of four structures:
        return(code % HASHTABLESIZE);
   }
   ```
+#### The string table and name table
+
+![The string table and name table](http://pjnlug6p5.bkt.clouddn.com/StringName.png)
+
+#### The Hash table and name table
+
+![The Hash table and name table](http://pjnlug6p5.bkt.clouddn.com/HashName.png)
 
 
 #### The basic organization of the symbol table
 
 ![The basic organization of the symbol table.](http://pjnlug6p5.bkt.clouddn.com/SymbolTable.png)
 
+#### The interaction between the Symbol Table ans the phases of a compiler
+
+Virtually every phase of the compiler will use the symbol table:
+
+* The initialization phase will place keywords, operators, and standard identifiers in it.
+* The scanner will place user-defined identifiers and literals in it and will return the corresponding token.
+* The parser uses these tokens to create the parse tree, the product of the syntactic analysis of the program.
+* The semantic action routines place data type in its entries and uses this information in performing basic type-checking.
+* The intermediate code generation phase use pointers to entries in the symbol table in creating the intermediate representation of the program.
+* The object code generation phase uses pointers to entries in the symbol table in allocating storage for its variables and constants, as well as to store the addresses of its prodedures and functions.
 
 
 
