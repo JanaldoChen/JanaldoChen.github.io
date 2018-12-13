@@ -2,7 +2,7 @@
 layout: post
 title:  "Jason Compiler"
 date:   2018-12-12
-excerpt: "Jason Compiler"
+excerpt: "Jason(Just Another Simple Original Notion) compiler construction"
 tag:
 - Jason
 - Compiler
@@ -12,8 +12,7 @@ comments: false
 # Jason Compiler
 
 ## Jason Language Defiition
-
-Jason(Just Another Simple Original Notion) 程序设计语言是类ALGOL语言.
+The Jason(Just Another Simple Original Notion) programming language is an ALGOL-derived limited-purpose, programming language specifically designed to illustrate the principles of compiler construction.
 
 ### The Lexical Elements
 
@@ -114,7 +113,7 @@ The symbol table consists of four structures:
 
 #### The basic organization of the symbol table
 
-![The basic organization of the symbol table.](/Users/mac/Library/Application Support/typora-user-images/image-20181212235527968.png)
+![The basic organization of the symbol table.](http://pjnlug6p5.bkt.clouddn.com/SymbolTable.png)
 
 #### The information stored in the symbol table
 
