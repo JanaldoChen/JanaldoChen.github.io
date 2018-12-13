@@ -2,7 +2,7 @@
 layout: post
 title:  "Jason Compiler"
 date:   2018-12-12
-excerpt: "Jason(Just Another Simple Original Notion) compiler construction"
+excerpt: "Jason Compiler"
 tag:
 - Jason
 - Compiler
@@ -12,6 +12,7 @@ comments: false
 # Jason Compiler
 
 ## Jason Language Defiition
+
 The Jason(Just Another Simple Original Notion) programming language is an ALGOL-derived limited-purpose, programming language specifically designed to illustrate the principles of compiler construction.
 
 ### The Lexical Elements
@@ -24,7 +25,7 @@ The Jason(Just Another Simple Original Notion) programming language is an ALGOL-
 * operator
 
 #### The Keywords of Jason are:
-<table border = '0' style = "width:80%;align:center">
+<table border = '0' style = "width:80%">
   <tr>
     <td> BEGIN  </td> <td> END  </td> <td> PARAMETERS </td> <td> SET </td>
   </tr>
@@ -46,7 +47,8 @@ The Jason(Just Another Simple Original Notion) programming language is an ALGOL-
 </table>
 
 #### The Tokens of Jason are:
-<div>
+
+$$
 \begin{align}
  Identifer ::= & \ Letter(Letter|Digit)^* \\
 
@@ -59,10 +61,10 @@ The Jason(Just Another Simple Original Notion) programming language is an ALGOL-
  Operator ::= & \ .|;|,|(|)|=|<|>|!|+|-|*|/ \\
 
 \end{align}
-</div>
+$$
 
 ### The Grammar of Jason
-<div>
+$$
 \begin{align}
  Program : : = & \ Header \ DeclSec \ Block \ . \\
  Header : : = & \ program \ identifier \ ; \\
@@ -100,22 +102,21 @@ Statement : : = & \ read \ identifier \\
  AddOp :: = & \ + \ | \ - \\
  MultOp : : = & \ * \ | \ / \\
 \end{align}
-</div>
+$$
 
-### The Symbol Table
-
-The symbol table consists of four structures:
-
-* a string table, contains  the lexemes as one long array of characters.
-* a name table, containging the starting position of the lexemes within the string as their lengths.
-* an attribute table, containing the various attributes of the lexemes, including the token associated with it.
-* a hash table,  which points the name table.
-
-#### The basic organization of the symbol table
-
-![The basic organization of the symbol table.](http://pjnlug6p5.bkt.clouddn.com/SymbolTable.png)
+## The Symbol Table
 
 #### The information stored in the symbol table
+
+The symbol table is used to store essential information about every symbol contained within the program. It will contain the following types of information for the input strings in a source program:
+
+* The lexeme$(input \ string)$ itself
+* Corresponding token
+* Its semantic component $(e.g., variable, operator, constant, procedure, etc.)$
+* Data type
+* Value $(for \ data \ type)$
+* Scope $(e.g., Global, sample)$
+* Pointers to other entries$(When \ necessary)$
 
 <table border ="0" frame="hsides">
     <tr>
@@ -127,7 +128,7 @@ The symbol table consists of four structures:
         <th>Scope</th>
     </tr>
     <tr>
-      <td>While</td>
+    	<td>While</td>
         <td>TokWhile</td>
         <td>Keyword</td>
         <td>None</td>
@@ -135,7 +136,7 @@ The symbol table consists of four structures:
         <td>Global</td>
     </tr>
     <tr>
-      <td>+</td>
+    	<td>+</td>
         <td>TokPlus</td>
         <td>Operator</td>
         <td>None</td>
@@ -143,7 +144,7 @@ The symbol table consists of four structures:
         <td>Global</td>
     </tr>
     <tr>
-      <td>x</td>
+    	<td>x</td>
         <td>TokIdentifier</td>
         <td>Variable</td>
         <td>Integer</td>
@@ -151,7 +152,7 @@ The symbol table consists of four structures:
         <td>Sample</td>
     </tr>
     <tr>
-      <td>8</td>
+    	<td>8</td>
         <td>TokConstant</td>
         <td>Literal</td>
         <td>Integer</td>
@@ -159,6 +160,135 @@ The symbol table consists of four structures:
         <td>Global</td>
     </tr>
 </table>
+
+
+
+
+
+```c
+enum tokentype {tokbegin, tokcall, tokdeclare, tokdo, tokelse, tokend,
+    tokendif, tokenduntil,  tokendwhile, tokif, tokinteger,
+    tokparameters, tokprocedure, tokprogram, tokread,
+    tokreal, tokset, tokthen, tokuntil, tokwhile, tokwrite,
+    tokstar, tokplus, tokminus, tokslash, tokequals,
+    toksemicolon, tokcomma, tokperiod, tokgreater, tokless,
+    toknotequal, tokopenparen, tokcloseparen, tokfloat,
+    tokidentifier, tokconstant, tokerror, tokeof
+};
+
+enum symboltype {stunknown, stkeyword, stprogram,
+    stparameter, stvariable, sttempvar,
+    stconstant, stenum, ststruct, stunion, stprocedure,
+    stfunction, stlabel, stliteral, stoperator
+};
+
+enum datatype  {dtunknown, dtnone, dtprogram, dtprocedure,
+    dtinteger, dtreal
+};
+
+enum tagtype   {tint, treal};
+union valtype  {
+    int ival;
+    float rval;
+};
+
+struct valrec  {
+    enum tagtype tag;
+    union valtype val;
+};
+```
+
+### The structure of the symbol table
+
+The symbol table consists of four structures:
+
+* a string table, contains  the lexemes as one long array of characters.
+
+  ```c
+  char stringtable[STRINGTABLESIZE];
+  ```
+
+* a name table, containging the starting position of the lexemes within the string as their lengths.
+
+  ```c
+  struct nametabtype  {
+      int strstart;
+      int strlength;
+      int symtabptr;
+      int nextname;
+  }; 
+  struct nametabtype nametable[TABLESIZE];
+  ```
+
+* an attribute table, containing the various attributes of the lexemes, including the token associated with it.
+
+  ```c
+  struct symtabtype   {
+      enum symboltype symtype;
+      enum tokentype tok_class;
+      enum datatype dataclass;
+      int owningprocedure;
+      int thisname;
+      int outerscope, scopenext;
+      struct valrec value;
+      char label[LABELSIZE];
+  };
+  struct symtabtype symtab[SYMTABLESIZE];
+  ```
+
+* a hash table,  which points the name table.
+
+  ```c
+  int  hashtab[HASHTABLESIZE];
+  ```
+
+##### Hash Functions
+
+* The hash function takes the lexeme and produces a nonunique value from it which is a starting point in a list of entries, one of which is the one that we seek.
+
+* We want our hash value to produce as few hash collisions as possible.
+
+* Our first temptation would be to use a hash function such as: Sum(ASCII(Lexeme)) MOD SomeValue
+  This is not a good hash function because cat and act would have the same hash value.
+
+  ```c
+  /*
+   * HashCode() -     A hashing function which uses the characters
+   *        from the end of the token string.  The algorithm comes
+   *        from Matthew Smosna of NYU.    
+   */
+  int  hashcode(char string[], int length)
+  {
+       int i, numshifts, startchar;
+       unsigned code;
+  
+       numshifts = (int) min(length, (8*sizeof(int)-8));
+       startchar = ((length-numshifts) % 2);
+       code = 0;
+  
+       for (i = startchar;  i <= startchar + numshifts - 1;  i++)
+            code = (code << 1) + string[i];
+  
+       return(code % HASHTABLESIZE);
+  }
+  ```
+
+
+#### The basic organization of the symbol table
+
+![The basic organization of the symbol table.](http://pjnlug6p5.bkt.clouddn.com/SymbolTable.png)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
