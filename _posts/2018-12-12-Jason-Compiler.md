@@ -270,18 +270,36 @@ The symbol table consists of four structures:
        return(code % HASHTABLESIZE);
   }
   ```
-#### The string table and name table
 
-![The string table and name table](http://pjnlug6p5.bkt.clouddn.com/StringName.png)
+#### The string table and name table
+<div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8" ><img class="img-fluid d-block" src="http://pjnlug6p5.bkt.clouddn.com/StringName.png"></div>
+      </div>
+    </div>
+  </div>
 
 #### The Hash table and name table
 
-![The Hash table and name table](http://pjnlug6p5.bkt.clouddn.com/HashName.png)
+<div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8" ><img class="img-fluid d-block" src="http://pjnlug6p5.bkt.clouddn.com/HashName.png"></div>
+      </div>
+    </div>
+</div>
 
 
 #### The basic organization of the symbol table
 
-![The basic organization of the symbol table.](http://pjnlug6p5.bkt.clouddn.com/SymbolTable.png)
+<div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8" ><img class="img-fluid d-block" src="http://pjnlug6p5.bkt.clouddn.com/SymbolTable.png"></div>
+      </div>
+    </div>
+</div>
 
 #### The interaction between the Symbol Table ans the phases of a compiler
 
