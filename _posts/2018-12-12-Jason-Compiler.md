@@ -495,7 +495,31 @@ Since you cannot determine if you have read beyond the end of a lexeme until you
     * we may wish to hand-code the token that will be returned by the symbol table.
   * In scanning a literal, we read characters until encountering the appropriate closing quotation mark.
 
+## Top-Down Parsing
 
+* Top-down parsing is a parsing-method where a sentence is parsed starting from the root of the parse tree (with the “Start” symbol), working recursively down to the leaves of the tree (with the terminals).
+* In practice, top-down parsing algorithms are easier to understand than bottom-up algorithms.
+* Not all grammars can be parsed top-down, but most context-free grammars can be parsed bottomup. 
+
+### The LL(1) Jason Grammar
+
+
+### FIRST set for Jason
+
+### Determining the FIRST set for Jason
+
+### Implementing the Parse Table
+
+### The Parsing Algorithm
+```
+Place the start symbol in a node and push it onto the stack.
+Fetch a token
+REPEAT
+  Pop a node from the stack
+  IF it contains a terminal, match it to the current token (no match indicates a parsing error) and fetch another token
+  ELSE IF it contains a nonterminal, look it up in the production table using the nontermina and the current token. Place the variables in REVERSE order on the stack
+UNTIL the stack is empty
+```
 
 
 
