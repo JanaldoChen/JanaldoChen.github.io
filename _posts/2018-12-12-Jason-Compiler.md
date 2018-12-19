@@ -521,8 +521,70 @@ REPEAT
 UNTIL the stack is empty
 ```
 
+<div>
+\begin{align}
 
+ Program : : = & \ Header \ DeclSec \ Block \ . \\
+ Header : : = & \ program \ identifier \ &#64;AddProgName \ ; \\
+ DeclSec : : = & \ declare \ VarDecls \ ProcDecls \ \\
+ DeclSec : : = & \ ε \\
+ VarDeclSec : : = & \ VarDecl \ MoreVarDels \\
+ MoreVarDecls : : = & \ VarDecl \ MoreVarDecls \\
+ MoreVarDecls : : = & \ ε \\
+ VarDecl : : = & \ DataType \ IdList \ ; \\
+ DataType : : = & \ real \ &#64;PushReral \\
+ DataType : : = & \ integer \ &#64;PushInt \\
+ IdList : : = & \ identifier \ &#64;DeclVar \ MoreIdList \\
+ MoreIdList : : = & \ , \ identifier \ &#64;DeclVar \ MoreIdList \\
+ MoreIdList : : = & \ &#64;PopType \\
+ ProcDecls : : = & \ ProcHeader \ ProcDeclSec \ Block \ &#64;CloseProc \ ; \\
+ ProcHeader : : = & \ procedure \ identifier \ &#64;AddProcName \ ; \\
+ ProcDeclSec : : = & \ ParamDeclSec \ DeclSec \\
+ ParamDeclSec : : = & \ parameters \ &#64;SetParamLink \ ParamDecls \\
+ ParamDeclSec : : = & \ ε \\
+ ParamDecls : : = & \ ParamDecl \ MoreParamDecls \\
+ MoreParamDecls : : = & \ ParamDecl \ MoreParamDecls \\
+ MoreParamDecls : : = & \ ε \\
+ ParamDecl : : = & \ DataType \ identifier \ &#64;DeclParam \ ; \\
+ Block : : = & \ begin \ &#64;StartBlock \ Statements \ end \ &#64;EndBlock \\
+ Statements : : = & \ Statement \ MoreStatements \\
+ MoreStatements : : = & \ ; \ Statement \ MoreStatements \\
+ MoreStatements : : = & \ ε \\
+ Statement : : = & \ read \ identifier \ &#64;GenRead \\
+ Statement : : = & \ set \ identifier \ &#64;PushId \ = \ Expression \ &#64; GenAssn \\
+ Statement : : = & \ write \ identifier \ &#64;GenWrite \\
+ Statement : : = & \ if \ Condition \ then \ &#64;StartIf \ Statements \ ElseClause \\
+ Statement : : = & \ while \ &#64;StartWhile \ do \ Statements \ endwhile \ &#64;FinishLoop \\
+ Statement : : = & \ until \ &#64;PrepareLoop \ Condition \ &#64;StartUntil \ do \ Statements \ enduntil \ &#64;FinishLoop \\
+ Statement : : = & \ call \ identifier \ &#64;StartCall \ Arglist \ EndCall \\
+ Statement : : = & \ ε \\
+ Expression : : = & \ Term \ MoreExpression \\
+ MoreExpression : : = & \ AddOp \ Term \ &#64;CalcExpresion \ MoreExpression \\
+ MoreExpression : : = & \ ε \\
+ Term : : = & \ Factor \ MoreTerm \\
+ MoreTerm : : = & \ MultOp \ Factor \ &#64;CalcTerm \ MoreTerm \\
+ MoreTerm : : = & \ ε \\
+ Factor : : = & \ identifier \ &#64;PushId \\
+ Factor : : = & \ constant \ &#64;PushConst \\
+ Condition : : = & \ Expression \ Relop \ Expression \ EvalCondition \\
+ AddOp : : = & \ + \ &#64;PushAddOp \\
+ AddOp : : = & \ - \ &#64;PushAddOp \\
+ MultOp : : = & \ * \ &#64;PushMultOp \\
+ MultOp : : = & \ / \ &#64;PushMultOp \\
+ RelOp : : = & \ = \ &#64;PushRelOp \\
+ RelOp : : = & \ ! \ &#64;PushRelOp \\
+ RelOp : : = & \ > \ &#64;PushRelOp \\
+ RelOp : : = & \ < \ &#64;PushRelOp \\
+ ArgList : : = & \ ( \ Argumnets \ ) \\
+ ArgList : : = & \ ε \\
+ Arguments : : = & \ identifier \ &#64;AddArgument \ MoreArguments \\
+ MoreArguments : : = & \ , \ identifier \ &#64;AddArgument \ MoreArguments \\
+ MoreArguments : : = & \ &#64;EndArgList \\
+ ElseClause : : = & \ else \ &#64;StartElse \ Statements \ endif \ &#64;FinishIf \\
+ ElseClause : : = & \ endif \ &#64;FinishIf \\
 
+\end{align}
+</div>
 
 
 
