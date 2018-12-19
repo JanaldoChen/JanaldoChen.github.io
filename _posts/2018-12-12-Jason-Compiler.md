@@ -537,7 +537,7 @@ Since you cannot determine if you have read beyond the end of a lexeme until you
  Statement : : = & \ if \ Condition \ then \ Statements \ ElseClause \\
  Statement : : = & \ while \ do \ Statements \ endwhile \\
  Statement : : = & \ until \ Condition \ do \ Statements \ enduntil \\
- Statement : : = & \ call \ identifier \ Arglist \ EndCall \\
+ Statement : : = & \ call \ identifier \ Arglist \\
  Statement : : = & \ ε \\
  Expression : : = & \ Term \ MoreExpression \\
  MoreExpression : : = & \ AddOp \ Term \ MoreExpression \\
@@ -547,7 +547,7 @@ Since you cannot determine if you have read beyond the end of a lexeme until you
  MoreTerm : : = & \ ε \\
  Factor : : = & \ identifier \\
  Factor : : = & \ constant \\
- Condition : : = & \ Expression \ Relop \ Expression \ EvalCondition \\
+ Condition : : = & \ Expression \ Relop \ Expression \\
  AddOp : : = & \ + \\
  AddOp : : = & \ - \\
  MultOp : : = & \ * \\
@@ -691,6 +691,43 @@ REPEAT
 UNTIL the stack is empty
 ```
 
+## Semantic Analysis
+
+### What is Semantic Analysis?
+
+Semantic analysis is the task of ensuring that the declarations and statements of a program are semantically correct, i.e, that their meaning is clear and consistent with the way in which control structures and data types are supposed to be used.
+
+### What Does Semantic Analysis Involve?
+
+Semantic analysis typically involves:
+  * *Type checking* – Data types are used in a manner that is consistent with their definition (i. e., only with compatible data types, only with operations that are defined for them, etc.)
+  * *Label Checking* – Labels references in a program must exist.
+  * *Flow control checks* – control structures must be used in their proper fashion (no GOTOs into a FORTRAN DO statement, no breaks outside a loop or switch statement, etc.)
+
+### Where Is Semantic Analysis Performed in a Compiler?
+
+* Semantic analysis is not a separate module within a compiler. It is usually a collection of procedures called at appropriate times by the parser as the grammar requires it.
+* Implementing the semantic actions is conceptually simpler in recursive descent parsing because they
+are simply added to the recursive procedures.
+* Implementing the semantic actions in a tableaction driven LL(1) parser requires the addition of a third type of variable to the productions and the necessary software routines to process it.
+
+### What Does Semantic Analysis Produce?
+
+* Part of semantic analysis is producing some sort of representation of the program, either object code
+or an intermediate representation of the program.
+* One-pass compilers will generate object code without using an intermediate representation; code generation is part of the semantic actions performed during parsing.
+* Other compilers will produce an intermediate representation during semantic analysis; most often it will be an abstract syntax tree or quadruples.
+
+### What is an Attribute Grammar?
+
+* An attribute grammar is an extension to a context-free grammar that is used to describe features of a
+programming language that cannot be described in BNF or can only be described in BNF with great difficulty.
+* Examples
+  * Describing the rule that real variables can be assigned integer values but the reverse is not true is difficult to describe completely in BNF.
+  * Sebesta says that the rule requiring that all variable must be declared before being used is impossible to describe in BNF.
+
+#### The Attribute Grammar of Jason
+
 <div>
 \begin{align}
 
@@ -726,7 +763,7 @@ UNTIL the stack is empty
  Statement : : = & \ if \ Condition \ then \ &#64;StartIf \ Statements \ ElseClause \\
  Statement : : = & \ while \ &#64;StartWhile \ do \ Statements \ endwhile \ &#64;FinishLoop \\
  Statement : : = & \ until \ &#64;PrepareLoop \ Condition \ &#64;StartUntil \ do \ Statements \ enduntil \ &#64;FinishLoop \\
- Statement : : = & \ call \ identifier \ &#64;StartCall \ Arglist \ EndCall \\
+ Statement : : = & \ call \ identifier \ &#64;StartCall \ Arglist \ &#64;EndCall \\
  Statement : : = & \ ε \\
  Expression : : = & \ Term \ MoreExpression \\
  MoreExpression : : = & \ AddOp \ Term \ &#64;CalcExpresion \ MoreExpression \\
@@ -736,7 +773,7 @@ UNTIL the stack is empty
  MoreTerm : : = & \ ε \\
  Factor : : = & \ identifier \ &#64;PushId \\
  Factor : : = & \ constant \ &#64;PushConst \\
- Condition : : = & \ Expression \ Relop \ Expression \ EvalCondition \\
+ Condition : : = & \ Expression \ Relop \ Expression \ &#64;EvalCondition \\
  AddOp : : = & \ + \ &#64;PushAddOp \\
  AddOp : : = & \ - \ &#64;PushAddOp \\
  MultOp : : = & \ * \ &#64;PushMultOp \\
@@ -756,9 +793,311 @@ UNTIL the stack is empty
 \end{align}
 </div>
 
+```c
+const struct prodarraytype  prodarray[] =   {
+    /* Program */ {Nonterm, NTHeader},    {Nonterm, NTDeclSec},
+    {Nonterm, NTBlock},             {Term, tokperiod},
+    
+    /* Header */  {Term, tokprogram},             {Term, tokidentifier},
+    {Action, AcAddProgName},  {Term, toksemicolon},
+    
+    /* DeclSec */ {Term, tokdeclare},   {Nonterm, NTVarDecls},
+    {Nonterm, NTProcDecls},
+    /* DeclSec */ /* <Nil> */
+    
+    /* VarDeclSec*/ {Nonterm, NTVarDecl},     {Nonterm, NTMoreVarDecls},
+    
+    /*MoreVarDcls*/ {Nonterm, NTVarDecl},     {Nonterm, NTMoreVarDecls},
+    /*MoreVarDcls*/ /* <Nil> */
+    
+    /* VarDecl */ {Nonterm, NTDataType},    {Nonterm, NTIdList},
+    {Term, toksemicolon},
+    
+    /* DataType */  {Term, tokreal},    {Action, AcPushReal},
+    /* DataType */  {Term, tokinteger},   {Action, AcPushInt},
+    
+    /* IdList */  {Term, tokidentifier},    {Action, AcDeclVar},
+    {Nonterm, NTMoreIdList},
+    
+    /* MoreIdLst*/  {Term, tokcomma},   {Term, tokidentifier},
+    {Action, AcDeclVar},    {Nonterm, NTMoreIdList},
+    /* MoreIdList*/ {Action, AcPopType},
+    
+    /* ProcDecls*/  {Nonterm, NTProcDecl},    {Nonterm, NTProcDecls},
+    /* ProcDecls*/  /* <Nil> */
+    
+    /* ProcDecl*/ {Nonterm, NTProcHeader},  {Nonterm, NTProcDeclSec},
+    {Nonterm, NTBlock},     {Action, AcCloseProc},
+    {Term, toksemicolon},
+    
+    /* ProcHeader*/ {Term, tokprocedure},     {Term, tokidentifier},
+    {Action, AcAddProcName},  {Term, toksemicolon},
+    
+    /* ProcDeclSec*/{Nonterm, NTParamDeclSec},  {Nonterm, NTDeclSec},
+    
+    /* ParamDclSec*/{Term, tokparameters},    {Action, AcSetParamLink},
+    {Nonterm, NTParamDecls},
+    /* ParamDclSec*//* <Nil> */
+    
+    /* ParamDecls*/ {Nonterm, NTParamDecl},   {Nonterm, NTMoreParamDecls},
+    
+    /*MorePrmDcls*/ {Nonterm, NTParamDecl},   {Nonterm, NTMoreParamDecls},
+    /*MorePrmDcls*/ /* <Nil> */
+    
+    /* ParamDecl */ {Nonterm, NTDataType},    {Term, tokidentifier},
+    {Action, AcDeclParam},    {Term, toksemicolon},
+    
+    /* Block */ {Term, tokbegin},   {Action, AcStartBlock},
+    {Nonterm, NTStatements},  {Term, tokend},
+    {Action, AcEndBlock},
+    
+    /* Statements*/ {Nonterm, NTStatement},   {Nonterm, NTMoreStatements},
+    
+    /*MoreStatmnts*/{Term, toksemicolon},   {Nonterm, NTStatement},
+    {Nonterm, NTMoreStatements},
+    /*MoreStatmnts*//* <Nil> */
+    
+    /* Statement */ {Term, tokread},    {Term, tokidentifier},
+    {Action, AcGenRead},
+    /* Statement */ {Term, tokset},     {Term, tokidentifier},
+    {Action, AcPushId},   {Term, tokequals},
+    {Nonterm, NTExpression},  {Action, AcGenAssn},
+    /* Statement */ {Term, tokwrite},     {Term, tokidentifier},
+    {Action, AcGenWrite},
+    /* Statement */ {Term, tokif},      {Nonterm, NTCondition},
+    {Term, tokthen},    {Action, AcStartIf},
+    {Nonterm, NTStatements},  {Nonterm, NTElseClause},
+    /* Statement */ {Term, tokwhile},   {Action, AcPrepareLoop},
+    {Nonterm, NTCondition},   {Action, AcStartWhile},
+    {Term, tokdo},      {Nonterm, NTStatements},
+    {Term, tokendwhile},    {Action, AcFinishLoop},
+    /* Statement */ {Term, tokuntil},   {Action, AcPrepareLoop},
+    {Nonterm, NTCondition},   {Action, AcStartUntil},
+    {Term, tokdo},      {Nonterm, NTStatements},
+    {Term, tokenduntil},    {Action, AcFinishLoop},
+    /* Statement */ {Term, tokcall},    {Term, tokidentifier},
+    {Action, AcStartCall},    {Nonterm, NTArglist},
+    {Action, AcEndCall},
+    /* Statement */ /* <Nil> */
+    
+    /* Expression */{Nonterm, NTTerm},    {Nonterm, NTMoreExpression},
+    
+    /* MoreExpr */  {Nonterm, NTAddOp},   {Nonterm, NTTerm},
+    {Action, AcCalcExpression}, {Nonterm, NTMoreExpression},
+    /* MoreExpr */  /* <Nil> */
+    
+    /* Term */      {Nonterm, NTFactor},    {Nonterm, NTMoreTerm},
+    
+    /* MoreTerm */  {Nonterm, NTMultOp},    {Nonterm, NTFactor},
+    {Action, AcCalcTerm},   {Nonterm, NTMoreTerm},
+    /* MoreTerm */  /* <Nil> */
+    
+    /* Factor */  {Term, tokidentifier},    {Action, AcPushId},
+    /* Factor */  {Term, tokconstant},    {Action, AcPushConst},
+    
+    /* Condition */ {Nonterm, NTExpression},  {Nonterm, NTRelOp},
+    {Nonterm, NTExpression},  {Action, AcEvalCondition},
+    
+    /* AddOp */ {Term, tokplus},    {Action, AcPushAddOp},
+    /* AddOp */ {Term, tokminus},   {Action, AcPushAddOp},
+    
+    /* MultOp */  {Term, tokstar},    {Action, AcPushMultOp},
+    /* MultOp */  {Term, tokslash},   {Action, AcPushMultOp},
+    
+    /* RelOp */ {Term, tokequals},    {Action, AcPushRelOp},
+    /* RelOp */ {Term, toknotequal},    {Action, AcPushRelOp},
+    /* RelOp */ {Term, tokgreater},   {Action, AcPushRelOp},
+    /* RelOp */ {Term, tokless},    {Action, AcPushRelOp},
+    
+    /* ArgList */ {Term, tokopenparen},   {Nonterm, NTArguments},
+    {Term, tokcloseparen},
+    /* ArgList */ /* <Nil> */
+    
+    /* Arguments */ {Term, tokidentifier},    {Action, AcAddArgument},
+    {Nonterm, NTMoreArguments},
+    
+    /* MoreArgs */  {Term, tokcomma},   {Term, tokidentifier},
+    {Action, AcAddArgument},  {Nonterm, NTMoreArguments},
+    /* MoreArgs */  {Action, AcEndArgList},
+    
+    /* ElseClause */{Term, tokelse},    {Action, AcStartElse},
+    {Nonterm, NTStatements},  {Term, tokendif},
+    {Action, AcFinishIf},
+    
+    /* ElseClause */{Term, tokendif},   {Action, AcFinishIf}
+};
 
+struct prodindexrec {
+    int prstart, prlength;
+};
 
+const struct prodindexrec prodindex[] = {
+    {0, 0},   {0, 4},   {4, 4},   {8, 3},  {11, 0},  {11, 2},
+    {13, 2},  {15, 0},  {15, 3},  {18, 2},  {20, 2},  {22, 3},
+    {25, 4},  {29, 1},  {30, 2},  {32, 0},  {32, 5},  {37, 4},
+    {41, 2},  {43, 3},  {46, 0},  {46, 2},  {48, 2},  {50, 0},
+    {50, 4},  {54, 5},  {59, 2},  {61, 3},  {64, 0},  {64, 3},
+    {67, 6},  {73, 3},  {76, 6},  {82, 8},  {90, 8},  {98, 5},
+    {103, 0}, {103, 2}, {105, 4}, {109, 0}, {109, 2}, {111, 4},
+    {115, 0}, {115, 2}, {117, 2}, {119, 4}, {123, 2}, {125, 2},
+    {127, 2}, {129, 2}, {131, 2}, {133, 2}, {135, 2}, {137, 2},
+    {139, 3}, {142, 0}, {142, 3}, {145, 4}, {149, 1}, {150, 5},
+    {155, 2}
+};
+```
 
+## Intermediate Code Generation
+
+* The semantic processing procedures need to create some intermediate representation of the program.
+* One such representation is called quadruples or threeaddress codes.
+  * Quadruples contain an assembler-level operator and three operands which do not depend on any particular machine architecture.
+  * These can include:
+    * assignment (for scalar values or array elements)
+    * the arithmetic operations
+    * conditional and unconditional gotos and their labels
+    * identifying arguments and calling procedures
+
+### Quadruples
+
+* Quadruples consist of four fields: one operation and up to three operands.
+* Quadruples also known as three address codes.
+* Quadruples can be implemented using an enumerated type to represent the operations and pointers to symbol table entries to represent the operands.
+
+#### A sample program in Jason
+Source Code
+```
+PROGRAM prog;
+declare 
+    integer i;
+    real x, y;
+procedure readnums;
+    parameters
+        integer i;
+        real y;
+    begin
+        read i;
+        read y
+    end;
+begin
+    call readnums(i, y);
+    set x = i + y;
+    write x
+end.
+```
+The Quadruples
+```
+0 <label, readnums,_,_,>
+1 <read, i,_,_,>
+2 <read, y,_,_,>
+3 <return, _,_,_,>
+4 <label, prog,_,_,>
+5 <arg, i,_,_,>
+6 <arg, y,_,_,>
+7 <call, readnums,_,_,>
+8 <call, temp_0,_float,i>
+9 <+, x,temp_0,y>
+10  <write, x,_,_,>
+11  <return, _,_,_,>
+```
+The  Intermediate Code
+```
+0 readnums:
+1   read i 
+2   read y 
+3   return 
+4 prog:
+5   arg i 
+6   arg y 
+7   call readnums 
+8   temp_0 := _float(i)
+9   x := temp_0 + y
+10    write x 
+11    return 
+```
+#### Generating Quadruples
+
+* Expressions
+  ```
+  set z = a * x + b * y
+  ```
+  ```
+  t1 := a * x
+  t2 := b * y
+  t3 := t1 + t2
+  ```
+* IF-THEN-ELSE-ENDIF
+  ```
+  if x > y then set z = x
+           else set z = y
+  endif;
+  ```
+  ```
+    if x <= y goto L1
+    z := x
+    goto L2
+  L1:
+    z := y
+  L2:
+  ``` 
+* IF-THEN-ENDIF
+  ```
+  if y > 0 then set z = x/y
+  endif;
+  ```
+  ```
+    if y <= 0 goto L3
+    z := x/y
+  L3:
+  ```
+* WHILE-DO
+  ```
+  while x > 0 then set x = x/2.0
+  endwhile;
+  ```
+  ```
+  L4:
+    if x <= 0 goto L5
+    x := x/2.0
+    goto L4
+  L5:
+  ```
+* Call ProId(x, y)
+  ```
+  call ProId(x, y);
+  ```
+  ```
+  arg x
+  arg y
+  call ProId
+  ```
+* A Procedure
+  ```
+  procedure ProcId;
+  parameters
+    integer x;
+    real y;
+  begin ... end;
+  ```
+  ```
+  ProId:
+    param x
+    param y
+    ...
+    return
+  ```
+
+### Changing The Parsing Algorithm TO Accommodate Semantic Actions
+```
+Processing context-free expressions requires the use of a stack. The Parsing algorithm uses a stack:
+Place the start symbol in a node and push it onto the stack.
+Fetch a token
+REPEAT
+  Pop a node from the stack
+  IF it contains a terminal, match it to the current token (no match indicates a parsing error) and fetch another token
+  ELSE IF it contains a nonterminal, look it up in the production table using the nonterminal and the current token. Place the variables in REVERSE order on the stack
+  ELSE IF it contains an action, call the appropriate procedure to perform the action
+UNTIL the stack is empty
+```
 
 
 
