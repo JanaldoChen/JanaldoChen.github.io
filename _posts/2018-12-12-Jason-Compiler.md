@@ -1032,11 +1032,11 @@ The  Intermediate Code
   endif;
   ```
   ```
-    if x <= y goto L1
-    z := x
-    goto L2
+      if x <= y goto L1
+      z := x
+      goto L2
   L1:
-    z := y
+      z := y
   L2:
   ``` 
 * IF-THEN-ENDIF
@@ -1045,8 +1045,8 @@ The  Intermediate Code
   endif;
   ```
   ```
-    if y <= 0 goto L3
-    z := x/y
+      if y <= 0 goto L3
+      z := x/y
   L3:
   ```
 * WHILE-DO
@@ -1056,9 +1056,9 @@ The  Intermediate Code
   ```
   ```
   L4:
-    if x <= 0 goto L5
-    x := x/2.0
-    goto L4
+      if x <= 0 goto L5
+      x := x/2.0
+      goto L4
   L5:
   ```
 * Call ProId(x, y)
@@ -1080,10 +1080,10 @@ The  Intermediate Code
   ```
   ```
   ProId:
-    param x
-    param y
-    ...
-    return
+      param x
+      param y
+      ...
+      return
   ```
 
 ### Changing The Parsing Algorithm TO Accommodate Semantic Actions
@@ -1099,7 +1099,355 @@ REPEAT
 UNTIL the stack is empty
 ```
 
+## Running Sample Test
 
+### Source Code
+```
+PROGRAM Fib;
+{ Calculates the result of a basic formula Illustrates the use of procedures in JASON }
+  DECLARE
+    INTEGER n;
+    INTEGER ans;
+
+  PROCEDURE F;
+    PARAMETERS
+        INTEGER n;
+        DECLARE
+            INTEGER a;
+            INTEGER b;
+            INTEGER c;
+
+    BEGIN
+            SET a = 1;
+            SET b = 1;
+            SET n = n - 2;
+            WHILE n > 0 DO
+                SET c = a + b;
+                WRITE c;
+                SET a = b;
+                SET b = c;
+                SET n = n - 1
+            ENDWHILE
+        END;
+
+  {Main program}
+  BEGIN
+    READ n;
+        IF n < 3 THEN
+            IF n > 0 THEN
+                SET ans = 1;
+                WRITE ans
+            ENDIF;
+            IF n > 1 THEN
+                SET ans = 1;
+                WRITE ans
+            ENDIF;
+        ELSE
+            IF n > 0 THEN
+                SET ans = 1;
+                WRITE ans
+            ENDIF;
+            IF n > 1 THEN
+                SET ans = 1;
+                WRITE ans
+            ENDIF;
+            CALL F(n);
+        ENDIF;
+
+  END.
+```
+### Compiler Result
+
+* Lexical Analysis
+    <table border ="0" frame="hsides">
+        <tr>
+            <th>lexeme</th>
+            <th>tok_class</th>
+            <th>linenum</th>
+        </tr>
+        <tr>
+          <td>program</td>
+            <td>program</td>
+            <td>1</td>
+        </tr>
+        <tr>
+          <td>fib</td>
+            <td>identifier</td>
+            <td>1</td>
+        </tr>
+        <tr>
+          <td>;</td>
+            <td>semicolon</td>
+            <td>1</td>
+        </tr>
+        <tr>
+          <td>declare</td>
+            <td>declare</td>
+            <td>3</td>
+        </tr>
+        <tr>
+          <td>integer</td>
+            <td>integer</td>
+            <td>4</td>
+        </tr>
+        <tr>
+          <td>n</td>
+            <td>identifier</td>
+            <td>4</td>
+        </tr>
+        <tr>
+          <td>;</td>
+            <td>semicolon</td>
+            <td>4</td>
+        </tr>
+        <tr>
+          <td>integer</td>
+            <td>integer</td>
+            <td>5</td>
+        </tr>
+        <tr>
+          <td>ans</td>
+            <td>identifier</td>
+            <td>5</td>
+        </tr>
+        <tr>
+          <td>;</td>
+            <td>semicolon</td>
+            <td>5</td>
+        </tr>
+        <tr>
+          <td>procedure</td>
+            <td>procedure</td>
+            <td>7</td>
+        </tr>
+        <tr>
+          <td>f</td>
+            <td>identifier</td>
+            <td>7</td>
+        </tr>
+        <tr>
+          <td>;</td>
+            <td>semicolon</td>
+            <td>7</td>
+        </tr>
+        <tr>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+        </tr>
+    </table>
+
+* The  Intermediate Code before optimization
+  ```
+  0 f:
+  1   a := 1
+  2   b := 1
+  3   n := n - 2
+  4 label_0:
+  5   temp_0 := n - 0
+  6   if temp_0 <= 0 goto label_1
+  7   c := a + b
+  8   write c 
+  9   a := b
+  10    b := c
+  11    n := n - 1
+  12    goto label_0 
+  13  label_1:
+  14    return 
+  15  fib:
+  16    read n 
+  17    temp_1 := n - 3
+  18    if temp_1 >= 0 goto label_2
+  19    temp_2 := n - 0
+  20    if temp_2 <= 0 goto label_3
+  21    ans := 1
+  22    write ans 
+  23  label_3:
+  24    temp_3 := n - 1
+  25    if temp_3 <= 0 goto label_4
+  26    ans := 1
+  27    write ans 
+  28  label_4:
+  29    goto label_5 
+  30  label_2:
+  31    temp_4 := n - 0
+  32    if temp_4 <= 0 goto label_6
+  33    ans := 1
+  34    write ans 
+  35  label_6:
+  36    temp_5 := n - 1
+  37    if temp_5 <= 0 goto label_7
+  38    ans := 1
+  39    write ans 
+  40  label_7:
+  41    arg n 
+  42    call f 
+  43  label_5:
+  44    return 
+  ```
+* The  Intermediate Code after optimization
+  ```
+  0 f:
+  1   a := 1
+  2   b := 1
+  3   n := n - 2
+  4 label_0:
+  5   temp_0 := n
+  6   if temp_0 <= 0 goto label_1
+  7   c := a + b
+  8   write c 
+  9   a := b
+  10    b := c
+  11    n := n - 1
+  12    goto label_0 
+  13  label_1:
+  14    return 
+  15  fib:
+  16    read n 
+  17    temp_1 := n - 3
+  18    if temp_1 >= 0 goto label_2
+  19    temp_2 := n
+  20    if temp_2 <= 0 goto label_3
+  21    ans := 1
+  22    write ans 
+  23  label_3:
+  24    temp_3 := n - 1
+  25    if temp_3 <= 0 goto label_4
+  26    ans := 1
+  27    write ans 
+  28  label_4:
+  29    goto label_5 
+  30  label_2:
+  31    temp_4 := n
+  32    if temp_4 <= 0 goto label_6
+  33    ans := 1
+  34    write ans 
+  35  label_6:
+  36    temp_5 := n - 1
+  37    if temp_5 <= 0 goto label_7
+  38    ans := 1
+  39    write ans 
+  40  label_7:
+  41    arg n 
+  42    call f 
+  43  label_5:
+  44    return 
+  ```
+* The  Quadruples
+  ```
+  0 <label, f,_,_,>
+  1 <=, a,1,_,>
+  2 <=, b,1,_,>
+  3 <-, n,n,2>
+  4 <label, label_0,_,_,>
+  5 <=, temp_0,n,_,>
+  6 <ifnegz, temp_0,label_1,_,>
+  7 <+, c,a,b>
+  8 <write, c,_,_,>
+  9 <=, a,b,_,>
+  10  <=, b,c,_,>
+  11  <-, n,n,1>
+  12  <goto, label_0,_,_,>
+  13  <label, label_1,_,_,>
+  14  <return, _,_,_,>
+  15  <label, fib,_,_,>
+  16  <read, n,_,_,>
+  17  <-, temp_1,n,3>
+  18  <ifposz, temp_1,label_2,_,>
+  19  <=, temp_2,n,_,>
+  20  <ifnegz, temp_2,label_3,_,>
+  21  <=, ans,1,_,>
+  22  <write, ans,_,_,>
+  23  <label, label_3,_,_,>
+  24  <-, temp_3,n,1>
+  25  <ifnegz, temp_3,label_4,_,>
+  26  <=, ans,1,_,>
+  27  <write, ans,_,_,>
+  28  <label, label_4,_,_,>
+  29  <goto, label_5,_,_,>
+  30  <label, label_2,_,_,>
+  31  <=, temp_4,n,_,>
+  32  <ifnegz, temp_4,label_6,_,>
+  33  <=, ans,1,_,>
+  34  <write, ans,_,_,>
+  35  <label, label_6,_,_,>
+  36  <-, temp_5,n,1>
+  37  <ifnegz, temp_5,label_7,_,>
+  38  <=, ans,1,_,>
+  39  <write, ans,_,_,>
+  40  <label, label_7,_,_,>
+  41  <arg, n,_,_,>
+  42  <call, f,_,_,>
+  43  <label, label_5,_,_,>
+  44  <return, _,_,_,>
+  ```
+* The Symbol Table
+  ```
+                     Token       Symbol     Data              Owning
+  Index   Name       Class       Type       Type    Value   Procedure    Label
+  -----   ----       -----       ------     ----    -----   ---------
+      0 begin      begin       keyword    none        0   global   
+      1 call       call        keyword    none        0   global   
+      2 declare    declare     keyword    none        0   global   
+      3 do         do          keyword    none        0   global   
+      4 else       else        keyword    none        0   global   
+      5 end        end         keyword    none        0   global   
+      6 endif      endif       keyword    none        0   global   
+      7 enduntil   enduntil    keyword    none        0   global   
+      8 endwhile   endwhile    keyword    none        0   global   
+      9 if         if          keyword    none        0   global   
+     10 integer    integer     keyword    none        0   global   
+     11 parameters parameters  keyword    none        0   global   
+     12 procedure  procedure   keyword    none        0   global   
+     13 program    program     keyword    none        0   global   
+     14 read       read        keyword    none        0   global   
+     15 real       real        keyword    none        0   global   
+     16 set        set         keyword    none        0   global   
+     17 then       then        keyword    none        0   global   
+     18 until      until       keyword    none        0   global   
+     19 while      while       keyword    none        0   global   
+     20 write      write       keyword    none        0   global   
+     21 *          star        operator   none        0   global   
+     22 +          plus        operator   none        0   global   
+     23 -          minus       operator   none        0   global   
+     24 /          slash       operator   none        0   global   
+     25 =          equals      operator   none        0   global   
+     26 ;          semicolon   operator   none        0   global   
+     27 ,          comma       operator   none        0   global   
+     28 .          period      operator   none        0   global   
+     29 >          greater     operator   none        0   global   
+     30 <          less        operator   none        0   global   
+     31 !          notequal    operator   none        0   global   
+     32 (          openparen   operator   none        0   global   
+     33 )          closeparen  operator   none        0   global   
+     34 _float     float       function   real        0   global   
+     35 fib        identifier  program    program     0   global   fib
+     36 n          identifier  variable   integer     0   FIB   n
+     37 ans        identifier  variable   integer     0   FIB   ans
+     38 f          identifier  procedure  proced.    39   FIB   f
+     39 n          identifier  parameter  integer     0   F   [bp+2]
+     40 a          identifier  variable   integer     0   F   [bp-2]
+     41 b          identifier  variable   integer     0   F   [bp-4]
+     42 c          identifier  variable   integer     0   F   [bp-6]
+     43 1          constant    literal    integer     1   global   1
+     44 2          constant    literal    integer     2   global   2
+     45 temp_0     identifier  temp. var  integer     0   F   [bp-8]
+     46 label_0    identifier  label      none        4   global   _loop46
+     47 0          constant    literal    integer     0   global   
+     48 label_1    identifier  label      none       13   global   _loop48
+     49 temp_1     identifier  temp. var  integer     0   FIB   [bp-14]
+     50 3          constant    literal    integer     3   global   3
+     51 label_2    identifier  label      none       30   global   [bp-16]
+     52 temp_2     identifier  temp. var  integer     0   FIB   [bp-20]
+     53 label_3    identifier  label      none       23   global   [bp-22]
+     54 temp_3     identifier  temp. var  integer     0   FIB   [bp-26]
+     55 label_4    identifier  label      none       28   global   [bp-28]
+     56 label_5    identifier  label      none       43   global   [bp-32]
+     57 temp_4     identifier  temp. var  integer     0   FIB   [bp-36]
+     58 label_6    identifier  label      none       35   global   [bp-38]
+     59 temp_5     identifier  temp. var  integer     0   FIB   [bp-42]
+     60 label_7    identifier  label      none       40   global   [bp-44]
+  ```
 
 
 
