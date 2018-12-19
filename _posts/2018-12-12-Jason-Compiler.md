@@ -503,12 +503,182 @@ Since you cannot determine if you have read beyond the end of a lexeme until you
 
 ### The LL(1) Jason Grammar
 
+<div>
+\begin{align}
+
+ Program : : = & \ Header \ DeclSec \ Block \ . \\
+ Header : : = & \ program \ identifier \ ; \\
+ DeclSec : : = & \ declare \ VarDecls \ ProcDecls \ \\
+ DeclSec : : = & \ ε \\
+ VarDeclSec : : = & \ VarDecl \ MoreVarDels \\
+ MoreVarDecls : : = & \ VarDecl \ MoreVarDecls \\
+ MoreVarDecls : : = & \ ε \\
+ VarDecl : : = & \ DataType \ IdList \ ; \\
+ DataType : : = & \ real \\
+ DataType : : = & \ integer \\
+ IdList : : = & \ identifier \ MoreIdList \\
+ MoreIdList : : = & \ , \ identifier \ MoreIdList \\
+ ProcDecls : : = & \ ProcHeader \ ProcDeclSec \ Block \ ; \\
+ ProcHeader : : = & \ procedure \ identifier \ ; \\
+ ProcDeclSec : : = & \ ParamDeclSec \ DeclSec \\
+ ParamDeclSec : : = & \ parameters \ ParamDecls \\
+ ParamDeclSec : : = & \ ε \\
+ ParamDecls : : = & \ ParamDecl \ MoreParamDecls \\
+ MoreParamDecls : : = & \ ParamDecl \ MoreParamDecls \\
+ MoreParamDecls : : = & \ ε \\
+ ParamDecl : : = & \ DataType \ identifier \ ; \\
+ Block : : = & \ begin \ Statements \ end \\
+ Statements : : = & \ Statement \ MoreStatements \\
+ MoreStatements : : = & \ ; \ Statement \ MoreStatements \\
+ MoreStatements : : = & \ ε \\
+ Statement : : = & \ read \ identifier \\
+ Statement : : = & \ set \ identifier \ = \ Expression \\
+ Statement : : = & \ write \ identifier \\
+ Statement : : = & \ if \ Condition \ then \ Statements \ ElseClause \\
+ Statement : : = & \ while \ do \ Statements \ endwhile \\
+ Statement : : = & \ until \ Condition \ do \ Statements \ enduntil \\
+ Statement : : = & \ call \ identifier \ Arglist \ EndCall \\
+ Statement : : = & \ ε \\
+ Expression : : = & \ Term \ MoreExpression \\
+ MoreExpression : : = & \ AddOp \ Term \ MoreExpression \\
+ MoreExpression : : = & \ ε \\
+ Term : : = & \ Factor \ MoreTerm \\
+ MoreTerm : : = & \ MultOp \ Factor \ MoreTerm \\
+ MoreTerm : : = & \ ε \\
+ Factor : : = & \ identifier \\
+ Factor : : = & \ constant \\
+ Condition : : = & \ Expression \ Relop \ Expression \ EvalCondition \\
+ AddOp : : = & \ + \\
+ AddOp : : = & \ - \\
+ MultOp : : = & \ * \\
+ MultOp : : = & \ / \\
+ RelOp : : = & \ = \\
+ RelOp : : = & \ ! \\
+ RelOp : : = & \ > \\
+ RelOp : : = & \ < \\
+ ArgList : : = & \ ( \ Argumnets \ ) \\
+ ArgList : : = & \ ε \\
+ Arguments : : = & \ identifier \ MoreArguments \\
+ MoreArguments : : = & \ , \ identifier \ MoreArguments \\
+ ElseClause : : = & \ else \ Statements \ endif \\
+ ElseClause : : = & \ endif \\
+
+\end{align}
+</div>
+
 
 ### FIRST set for Jason
 
 ### Determining the FIRST set for Jason
 
 ### Implementing the Parse Table
+```c
+const int prodtable[][NUMTOKENS+3] = {
+    /*Program*/ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*Header*/  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*DeclSect*/  { 4, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*VarDeclSect*/ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 5, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*MoreVarDecls*/{ 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 7, 0, 0, 6, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*VarDecl*/ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 8, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*DataType*/  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10, 0, 0, 0, 0, 9, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*IdList*/  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,11,
+        0},
+    /*MoreIdList*/  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0,13,12, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*ProcDecls*/ {15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,14, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*ProcDecl*/  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,16, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*ProcHeader*/  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,17, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*ProcDeclSect*/{18, 0,18, 0, 0, 0, 0, 0, 0, 0, 0,18, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*ParamDeclSec*/{20, 0,20, 0, 0, 0, 0, 0, 0, 0, 0,19, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*ParamDecls*/  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,21, 0, 0, 0, 0,21, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*MoreParmDcls*/{23, 0,23, 0, 0, 0, 0, 0, 0, 0,22, 0, 0, 0, 0,22, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*ParamDecl*/ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,24, 0, 0, 0, 0,24, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*Block*/ {25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*Statements*/  { 0,26, 0, 0, 0, 0, 0, 0, 0,26, 0, 0, 0, 0,26, 0,26, 0,26,
+        26,26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*MoreStatmnts*/{ 0, 0, 0, 0,28,28,28,28,28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0,27, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*Statement*/ { 0,35, 0, 0,36,36,36,36,36,32, 0, 0, 0, 0,29, 0,30, 0,34,
+        33,31, 0, 0, 0, 0, 0,36, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        
+        0},
+    /*Expression*/  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,37,
+        37},
+    /*MoreExpr.*/ { 0, 0, 0,39,39,39,39,39,39, 0, 0, 0, 0, 0, 0, 0, 0,39, 0,
+        0, 0, 0,38,38, 0,39,39, 0, 0,39,39,39, 0, 0, 0, 0,
+        0},
+    /*Term*/  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,40,
+        40},
+    /*MoreTerm*/  { 0, 0, 0,42,42,42,42,42,42, 0, 0, 0, 0, 0, 0, 0, 0,42, 0,
+        0, 0,41,42,42,41,42,42, 0, 0,42,42,42, 0, 0, 0, 0,
+        0},
+    /*Factor*/  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,43,
+        44},
+    /*Condition*/ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,45,
+        45},
+    /*AddOp*/ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0,46,47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*MultOp*/  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0,48, 0, 0,49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0},
+    /*RelOp*/ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0,50, 0, 0, 0,52,53,51, 0, 0, 0, 0,
+        0},
+    /*ArgList*/ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0,55, 0, 0, 0, 0, 0,54, 0, 0, 0,
+        0},
+    /*Arguments*/ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,56,
+        0},
+    /*MoreArgs.*/ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0,57, 0, 0, 0, 0, 0,58, 0, 0,
+        0},
+    /*ElseClause*/  { 0, 0, 0, 0,59, 0,60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0}
+};
+```
 
 ### The Parsing Algorithm
 ```
