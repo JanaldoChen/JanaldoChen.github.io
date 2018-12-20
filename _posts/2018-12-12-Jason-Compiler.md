@@ -437,6 +437,10 @@ Closing the scope involves:
 * Numbers are usually assigned the token of NumericLiteral or something more specific like $$IntegerLiteral$$.
 * Characters and strings are assigned the token of $$CharacterLiteral$$.
 
+### LexicalAnalyer DFA
+
+![DFA](http://pjnlug6p5.bkt.clouddn.com/LexicalAnalyer%20DFA.png)
+
 ### Practical Issues in Lexical Analysis
 
 There are several important practical issues that arise in the design of a scanner:
