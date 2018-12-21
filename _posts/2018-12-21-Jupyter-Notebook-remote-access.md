@@ -63,7 +63,7 @@ jupyter notebook --generate-config
   c.NotebookApp.port =8888 #随便指定⼀个端⼝
   ```
 
-### 启动$Jupyter Notebook$
+### 启动$$Jupyter Notebook$$
 
 ```shell
 jupyter notebook
