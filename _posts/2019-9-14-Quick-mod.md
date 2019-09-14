@@ -10,14 +10,14 @@ tag:
 # 快速幂
 
 快速幂的思想就是减少重复计算
-\\(
+$$
 a^b =
 \begin{cases}
     1 & b = 0\\
     a^{b/2} \times a^{b/2} & b\%2 = 0 \\
     a^{b/2} \times a^{b/2} \times a & b\% 2 = 1
     \end{cases}
-\\)
+$$
    例如:
 
 * \\(a^6 = a^3 \times a^3\\)
@@ -121,12 +121,12 @@ int powmod(int a,int b,int c)   {//快速求 a^b % c，要避免计算中间结�
 有时对于计算\\(a*b\mod c\\), 其中\\(a,b,c \leq 10^{18}\\). 可能会造成\\(long\ long\\)溢出,为了避免使用高精度,可以借助快速幂的思想实现大数乘法:
 
 * \\(a*b \mod c = (\underbrace { a+a+\cdots a }_{ b }) \mod c \\)
-* \\(a \times b \mod c = 
+* $$ a \times b \mod c = 
       \begin{cases}
       0 & b = 0\\
       (a\times (b/2) \mod c + a\times (b/2) \mod c) \mod c & b\%2 = 0 \\
       (a\times (b/2) \mod c +a\times (b/2) \mod c) \mod c + a) \mod c & b\% 2 = 1
-      \end{cases}\\)
+      \end{cases} $$
 
 乘法加速取模
 
