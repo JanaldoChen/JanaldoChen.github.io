@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Learning Generalizable Model-based Neural Radiance Fields from Multi-view Images.">
+  <meta name="keywords" content="GM-NeRF, SMPL">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GM-NeRF: Learning Generalizable Model-based Neural Radiance Fields from Multi-view Images</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="../static/css/bulma.min.css">
+  <link rel="stylesheet" href="../static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="../static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="../static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="../static/css/index.css">
+  <link rel="icon" href="../static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="../static/js/fontawesome.all.min.js"></script>
+  <script src="../static/js/bulma-carousel.min.js"></script>
+  <script src="../static/js/bulma-slider.min.js"></script>
+  <script src="../static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://github.com/JanaldoChen/Anim-NeRF">
+            Anim-NeRF
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">GM-NeRF: Learning Generalizable Model-based Neural Radiance Fields from Multi-view Images</h1>
+            <h1 class="title is-size-3" style="color:#5a6268;">CVPR 2023</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://github.com/JanaldoChen">Jianchuan Chen</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="">Wentao Yi</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://charliememory.github.io">Liqian Ma</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://stephenjia.github.io">Xu Jia</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://ice.dlut.edu.cn/IIAU/index.html">Huchuan Lu</a><sup>1</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Dalian University of Technology, China</span>
+            <span class="author-block"><sup>2</sup>ZMO AI Inc.</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://openaccess.thecvf.com/content/CVPR2023/papers/Chen_GM-NeRF_Learning_Generalizable_Model-Based_Neural_Radiance_Fields_From_Multi-View_Images_CVPR_2023_paper.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2303.13777"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/JanaldoChen/GM-NeRF"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <video id="teaser" autoplay controls muted loop playsinline height="100%">
+            <source src="./videos/Teasar.mp4"
+                    type="video/mp4">
+        </video>
+        <h2 class="subtitle has-text-centered">
+            Given sparse calibrated multi-view images of an arbitrary performer and the corresponding registered SMPL, <span class="gm-nerf">GM-NeRF</span> builds the generalizable model-based neural human radiance field for novel view synthesis. 
+        </h2>
+        <img style="width: 100%;" src="./images/Teasar.png"
+                 alt="GM-NeRF Teasar"/>
+      <h2 class="subtitle has-text-centered">
+        Compared with other generalizable human NeRFs, <span class="gm-nerf">GM-NeRF</span> still
+        yields a reasonable result while the SMPL estimation is imprecise.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            In this work, we focus on synthesizing high-fidelity novel 
+            view images for arbitrary human performers, given a set
+            of sparse multi-view images. It is a challenging task due to
+            the large variation among articulated body poses and heavy
+            self-occlusions. To alleviate this, we introduce an effective generalizable framework Generalizable Model-based
+            Neural Radiance Fields (GM-NeRF) to synthesize freeviewpoint images. Specifically, 
+            we propose a geometryguided attention mechanism to register the appearance
+            code from multi-view 2D images to a geometry proxy which
+            can alleviate the misalignment between inaccurate geometry prior and pixel space. On top of that, we further conduct
+            neural rendering and partial gradient backpropagation for
+            efficient perceptual supervision and improvement of the perceptual quality of synthesis. To evaluate our method, we
+            conduct experiments on synthesized datasets THuman2.0
+            and Multi-garment, and real-world datasets Genebody and
+            ZJUMocap. The results demonstrate that our approach outperforms state-of-the-art methods in terms of novel view
+            synthesis and geometric reconstruction.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+            <h2 class="title is-3">Video</h2>
+            <div class="publication-video">
+            <iframe src=""
+                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+
+    <div class="container is-max-desktop">
+
+        <!-- Framework. -->
+        <div class="content has-text-justified">
+          <h2 class="title is-3 has-text-centered"><p>Framework Overview</p></h2>
+          <div class="has-text-centered">
+            <img style="width: 100%;" src="./images/Framework.png"
+                 alt="GM-NeRF architecture."/>
+          </div>
+          <p>
+            Given m calibrated multi-view images and registered SMPL, we build the generalizable
+            model-based neural human radiance field. First, we utilize the image encoder to extract multi-view image features, which are used to
+            provide geometric and appearance information, respectively. In order to adequately exploit the geometric prior, we propose the visibilitybased attention mechanism to construct a structured geometric body embedding, which is further diffused to form a geometric feature
+            volume. For any spatial point x, we trilinearly interpolate the feature volume G to obtain the geometric code g(x). In addition, we also
+            propose geometry-guided attention to obtain the appearance code a(x, d) directly from the multi-view image features. We then feed the
+            geometric code g(x) and appearance code a(x, d) into the MLP network to build the neural feature field (f, σ) = F(g(x), a(x, d)).
+            Finally, we employ volume rendering and neural rendering to generate the novel view image.
+          </p>
+        </div>
+
+        <!--/ Framework. -->
+    </div>
+    
+    <br/>
+
+      
+</section>
+
+
+<section class="hero is-light is-small">
+    <div class="hero-body">
+        
+        <!-- Novel View Synthesis -->
+
+        <div class="container has-text-centered">
+
+            <h2 class="title is-3 has-text-centered"><p>Novel View Synthesis</p></h2>
+    
+            <div id="results-carousel" class="carousel results-carousel">
+              
+              <div>
+                <div class="item item-1">
+                  <video poster="" id="case1" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Comparsions_Case1.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+      
+              <div>
+                <div class="item item-2">
+                  <video poster="" id="case2" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Comparsions_Case2.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+      
+              <div>
+                <div class="item item-3">
+                  <video poster="" id="case3" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Comparsions_Case3.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+      
+              <div>
+                <div class="item item-4">
+                  <video poster="" id="case4" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Comparsions_Case4.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+      
+            </div>
+    
+        </div>
+
+        <!--/ Novel View Synthesis -->
+
+        <br/>
+
+        <!-- 3D Reconstruction. -->
+        <div class="content has-text-justified">
+            <h2 class="title is-3 has-text-centered"><p>3D Reconstruction</p></h2>
+            <div class="has-text-centered">
+              <img style="width: 100%;" src="./images/Comparsion_Geometry.png"
+                   alt="Comparsion_Geometry."/>
+            </div>
+          </div>
+  
+        <!--/3D Reconstruction. -->
+
+        <br/>
+
+        <!-- Demos -->
+
+        <div class="container has-text-centered">
+
+            <h2 class="title is-3 has-text-centered"><p>Demos</p></h2>
+    
+            <div id="results-carousel" class="carousel results-carousel">
+              
+              <div>
+                <div class="item item-1">
+                  <video poster="" id="demo_case1" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Demos_Case1.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+      
+              <div>
+                <div class="item item-2">
+                  <video poster="" id="demo_case2" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Demos_Case2.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+      
+              <div>
+                <div class="item item-3">
+                  <video poster="" id="demo_case3" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Demos_Case3.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+      
+              <div>
+                <div class="item item-4">
+                  <video poster="" id="demo_case4" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Demos_Case4.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+
+              <div>
+                <div class="item item-5">
+                  <video poster="" id="demo_case5" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Demos_Case5.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+
+              <div>
+                <div class="item item-6">
+                  <video poster="" id="demo_case6" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Demos_Case6.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+
+              <div>
+                <div class="item item-7">
+                  <video poster="" id="demo_case7" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Demos_Case7.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+
+              <div>
+                <div class="item item-8">
+                  <video poster="" id="demo_case8" autoplay controls muted loop playsinline height="100%">
+                    <source src="./videos/Demos_Case8.mp4"
+                            type="video/mp4">
+                  </video>
+                </div>
+              </div>
+      
+            </div>
+    
+        </div>
+
+        <!--/ Demos -->
+
+    </div>
+</section>
+  
+
+<section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@inproceedings{chen2023gmnerf,
+        author = {Jianchuan Chen and
+            Wentao Yi and
+            Liqian Ma and
+            Xu Jia and
+            Huchuan Lu},
+        title = {GM-NeRF: Learning Generalizable Model-based Neural Radiance Fields
+            from Multi-view Images},
+        booktitle = {CVPR},
+        year = {2023}
+        }</code></pre>
+    </div>
+</section>
+
+
+<footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        Thanks to <a href="https://www.flaticon.com/" target="_blank">Flaticon</a> for providing beautiful icons.
+        The website template is borrowed from <a href="https://hypernerf.github.io/" target="_blank">HyperNeRF</a>.
+      </div>
+    </div>
+</footer>
+
+<script>
+    bulmaCarousel.attach('#results-carousel', {
+        slidesToScroll: 1,
+        slidesToShow: 1,
+        infinite: true,
+        autoplay: false,
+    });
+</script>
+
+</body>
+</html>
