@@ -83,7 +83,7 @@
             <h1 class="title is-size-3" style="color:#5a6268;">CVPR 2023</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://github.com/JanaldoChen">Jianchuan Chen</a><sup>1</sup>,</span>
+              <a href="">Jianchuan Chen</a><sup>1</sup>,</span>
             <span class="author-block">
               <a href="">Wentao Yi</a><sup>1</sup>,</span>
             <span class="author-block">
@@ -125,7 +125,7 @@
               </span>
               <!-- Video Link. -->
               <span class="link-block">
-                <a href=""
+                <a href="https://www.youtube.com/watch?v=p4vSrBd9JIs"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-youtube"></i>
@@ -185,8 +185,8 @@
             of sparse multi-view images. It is a challenging task due to
             the large variation among articulated body poses and heavy
             self-occlusions. To alleviate this, we introduce an effective generalizable framework Generalizable Model-based
-            Neural Radiance Fields (GM-NeRF) to synthesize freeviewpoint images. Specifically, 
-            we propose a geometryguided attention mechanism to register the appearance
+            Neural Radiance Fields (GM-NeRF) to synthesize free-viewpoint images. Specifically, 
+            we propose a geometry-guided attention mechanism to register the appearance
             code from multi-view 2D images to a geometry proxy which
             can alleviate the misalignment between inaccurate geometry prior and pixel space. On top of that, we further conduct
             neural rendering and partial gradient backpropagation for
@@ -206,7 +206,7 @@
         <div class="column is-four-fifths">
             <h2 class="title is-3">Video</h2>
             <div class="publication-video">
-            <iframe src=""
+            <iframe src="https://www.youtube.com/embed/p4vSrBd9JIs"
                     frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             </div>
         </div>
@@ -230,7 +230,7 @@
           <p>
             Given m calibrated multi-view images and registered SMPL, we build the generalizable
             model-based neural human radiance field. First, we utilize the image encoder to extract multi-view image features, which are used to
-            provide geometric and appearance information, respectively. In order to adequately exploit the geometric prior, we propose the visibilitybased attention mechanism to construct a structured geometric body embedding, which is further diffused to form a geometric feature
+            provide geometric and appearance information, respectively. In order to adequately exploit the geometric prior, we propose the visibility-based attention mechanism to construct a structured geometric body embedding, which is further diffused to form a geometric feature
             volume. For any spatial point x, we trilinearly interpolate the feature volume G to obtain the geometric code g(x). In addition, we also
             propose geometry-guided attention to obtain the appearance code a(x, d) directly from the multi-view image features. We then feed the
             geometric code g(x) and appearance code a(x, d) into the MLP network to build the neural feature field (f, σ) = F(g(x), a(x, d)).
