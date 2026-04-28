@@ -48,7 +48,7 @@ Fast and high-fidelity reconstruction of face-and-hair composable 3D head avatar
 
 [TaoAvatar: Real-time Lifelike Full-body Talking Avatars for Augmented Reality via 3D Gaussian Splatting](https://pixelai-team.github.io/TaoAvatar/)
 
-**Jianchuan Chen**, Jiaxiang Hu, Guoxian Wang, Zhiheng Jiang, Tao Zhou, Zheng Chen, Changjie Lv
+**Jianchuan Chen**, Jingchuan Hu, Gaige Wang, Zhonghua Jiang, Tiansong Zhou, Zhiwen Chen, Chengfei Lv
 
 Proceedings of the Computer Vision and Pattern Recognition Conference, 2025
 
@@ -78,7 +78,7 @@ Speaker-specific talking head synthesis leveraging 3D Gaussian Splatting for rea
 
 [GM-NeRF: Learning Generalizable Model-based Neural Radiance Fields from Multi-view Images](https://janaldochen.github.io/GM-NeRF)
 
-**Jianchuan Chen**, Wei Yi, Lanqing Ma, Xiaoyu Jia, Hujun Lu
+**Jianchuan Chen**, Wentao Yi, Liqian Ma, Xu Jia, Huchuan Lu
 
 Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition, 2023
 
