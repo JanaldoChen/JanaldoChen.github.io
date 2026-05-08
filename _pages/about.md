@@ -1,7 +1,7 @@
 ---
 permalink: /
-title: ""
-excerpt: ""
+title: "Jianchuan Chen's Homepage"
+excerpt: "Jianchuan Chen is a researcher at Alibaba Group working on 3D digital human reconstruction, neural rendering, NeRF, and 3D Gaussian Splatting."
 author_profile: true
 redirect_from: 
   - /about/
@@ -28,7 +28,7 @@ I received my M.Eng. and B.E. from Dalian University of Technology, where I cond
 
 # 📝 Publications
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2026</div><img src='images/FHAvatar_Teaser.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2026</div><img src='images/FHAvatar_Teaser.png' alt="FHAvatar fast and high-fidelity face-and-hair composable 3D head avatar teaser" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [FHAvatar: Fast and High-Fidelity Reconstruction of Face-and-Hair Composable 3D Head Avatar from Few Casual Captures](https://arxiv.org/abs/2603.23345)
@@ -43,7 +43,7 @@ Fast and high-fidelity reconstruction of face-and-hair composable 3D head avatar
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2025 Highlight</div><img src='images/TaoAvatar_Teaser.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2025 Highlight</div><img src='images/TaoAvatar_Teaser.png' alt="TaoAvatar real-time lifelike full-body talking avatar teaser" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [TaoAvatar: Real-time Lifelike Full-body Talking Avatars for Augmented Reality via 3D Gaussian Splatting](https://pixelai-team.github.io/TaoAvatar/)
@@ -58,7 +58,7 @@ Real-time lifelike full-body talking avatars for augmented reality using 3D Gaus
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ACM MM 2024</div><img src='images/GaussianTalker_Teaser.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ACM MM 2024</div><img src='images/GaussianTalker_Teaser.png' alt="GaussianTalker speaker-specific talking head synthesis teaser" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [GaussianTalker: Speaker-specific Talking Head Synthesis via 3D Gaussian Splatting](https://yuhongyun777.github.io/GaussianTalker)
@@ -73,7 +73,7 @@ Speaker-specific talking head synthesis leveraging 3D Gaussian Splatting for rea
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2023</div><img src='images/GM-NeRF_Teaser.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2023</div><img src='images/GM-NeRF_Teaser.png' alt="GM-NeRF generalizable model-based neural radiance fields teaser" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [GM-NeRF: Learning Generalizable Model-based Neural Radiance Fields from Multi-view Images](https://janaldochen.github.io/GM-NeRF)
@@ -88,7 +88,7 @@ Generalizable model-based neural radiance fields learning from multi-view images
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ECCV 2022 Workshop</div><img src='images/Pixel2SDF_Overview.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ECCV 2022 Workshop</div><img src='images/Pixel2SDF_Overview.png' alt="Pixel2ISDF human body reconstruction from multi-view and multi-pose images overview" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [Pixel2ISDF: Implicit Signed Distance Fields Based Human Body Model from Multi-view and Multi-pose Images](https://arxiv.org/abs/2212.02765)
@@ -103,7 +103,7 @@ Human body reconstruction using implicit signed distance fields from multi-view 
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ArXiv 2021</div><img src='images/Anim-NeRF_Overview.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ArXiv 2021</div><img src='images/Anim-NeRF_Overview.png' alt="Animatable Neural Radiance Fields from monocular RGB videos overview" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [Animatable Neural Radiance Fields from Monocular RGB Videos](https://arxiv.org/abs/2106.13629)
