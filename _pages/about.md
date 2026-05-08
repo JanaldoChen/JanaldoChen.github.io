@@ -43,7 +43,7 @@ Fast and high-fidelity reconstruction of face-and-hair composable 3D head avatar
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2025 Highlight</div><img src='images/TaoAvatar_teaser.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2025 Highlight</div><img src='images/TaoAvatar_Teaser.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [TaoAvatar: Real-time Lifelike Full-body Talking Avatars for Augmented Reality via 3D Gaussian Splatting](https://pixelai-team.github.io/TaoAvatar/)
