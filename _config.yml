@@ -7,7 +7,7 @@
 
 # Site Settings
 title                    : "Jianchuan Chen"
-description              : "Researcher in 3D Digital Human, Neural Rendering, and Computer Vision"
+description              : ""
 repository               : "JanaldoChen/JanaldoChen.github.io"
 google_scholar_stats_use_cdn : true
 
@@ -28,7 +28,7 @@ author:
   employer         : "Alibaba Group"
   pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=d4Aqm9sAAAAJ"
-  email            : "JanaldoChen@gmail.com"
+  email            : "janaldochen@gmail.com"
   researchgate     :  # e.g., "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :

@@ -17,9 +17,9 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-I am a Researcher at Alibaba Group, specializing in 3D Digital Human Reconstruction and Neural Rendering. My work spans real-time talking avatars, neural radiance fields (NeRF), and 3D Gaussian Splatting — from foundational avatar models to face-and-hair composable reconstruction and full-body articulation. My goal is to enable high-fidelity, real-time digital human synthesis for augmented reality and interactive applications.
+My name is **Jianchuan Chen（陈建川）**, and I am a Researcher at Alibaba Group. My research interests lie in 3D Digital Human Reconstruction and Neural Rendering, with a particular focus on real-time talking avatars, neural radiance fields (NeRF), and 3D Gaussian Splatting. I aim to develop high-fidelity, real-time digital human technologies for augmented reality and interactive applications.
 
-I received my M.Eng. and B.E. from Dalian University of Technology, where I conducted my research at the [IIAU-LAB](https://iiaulab.github.io/) under the supervision of Prof. [Huchuan Lu (IEEE Fellow)](https://scholar.google.com/citations?hl=en&user=D3nE0agAAAAJ).
+I received my M.Eng. and B.E. from Dalian University of Technology, where I conducted my research under the supervision of Prof. [Huchuan Lu (IEEE Fellow)](https://scholar.google.com/citations?hl=en&user=D3nE0agAAAAJ) at the [IIAU-LAB](https://iiaulab.github.io/).
 
 # 🔥 News
 - *2026*: &nbsp;🎉 Paper "FHAvatar: Fast and High-Fidelity Reconstruction of Face-and-Hair Composable 3D Head Avatar" accepted to **CVPR 2026**
@@ -28,7 +28,7 @@ I received my M.Eng. and B.E. from Dalian University of Technology, where I cond
 
 # 📝 Publications
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2026</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2026</div><img src='images/FHAvatar_Teaser.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [FHAvatar: Fast and High-Fidelity Reconstruction of Face-and-Hair Composable 3D Head Avatar from Few Casual Captures](https://arxiv.org/abs/2603.23345)
@@ -43,7 +43,7 @@ Fast and high-fidelity reconstruction of face-and-hair composable 3D head avatar
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2025 Highlight</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2025 Highlight</div><img src='images/TaoAvatar_teaser.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [TaoAvatar: Real-time Lifelike Full-body Talking Avatars for Augmented Reality via 3D Gaussian Splatting](https://pixelai-team.github.io/TaoAvatar/)
@@ -58,7 +58,7 @@ Real-time lifelike full-body talking avatars for augmented reality using 3D Gaus
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ACM MM 2024</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ACM MM 2024</div><img src='images/GaussianTalker_Teaser.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [GaussianTalker: Speaker-specific Talking Head Synthesis via 3D Gaussian Splatting](https://yuhongyun777.github.io/GaussianTalker)
@@ -73,7 +73,7 @@ Speaker-specific talking head synthesis leveraging 3D Gaussian Splatting for rea
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2023</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2023</div><img src='images/GM-NeRF_Teaser.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [GM-NeRF: Learning Generalizable Model-based Neural Radiance Fields from Multi-view Images](https://janaldochen.github.io/GM-NeRF)
@@ -88,7 +88,7 @@ Generalizable model-based neural radiance fields learning from multi-view images
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ECCV 2022 Workshop</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ECCV 2022 Workshop</div><img src='images/Pixel2SDF_Overview.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [Pixel2ISDF: Implicit Signed Distance Fields Based Human Body Model from Multi-view and Multi-pose Images](https://arxiv.org/abs/2212.02765)
@@ -103,7 +103,7 @@ Human body reconstruction using implicit signed distance fields from multi-view 
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ArXiv 2021</div><img src='images/500x300.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ArXiv 2021</div><img src='images/Anim-NeRF_Overview.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 [Animatable Neural Radiance Fields from Monocular RGB Videos](https://arxiv.org/abs/2106.13629)
@@ -133,6 +133,6 @@ Animatable neural radiance fields reconstruction from monocular RGB videos
 
 # 💻 Internships
 - **Huawei** (Jun 2022 - Oct 2022)
-  - Core Network Product Line — 3D head avatar algorithms, face detection, and 3DMM-based avatar driving
+  - 3D head avatar algorithms, face detection, and 3DMM-based avatar driving
 - **Tencent AI Lab** (Jun 2020 - Jun 2021)
-  - Virtual Human Algorithm Team — 3D digital human generation and motion transfer with NeRF + SMPL
+  - 3D digital human generation and motion transfer with NeRF + SMPL
